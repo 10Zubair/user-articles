@@ -1,8 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
+const session = require('express-session');
 
 const app = express();
+app.use(session({
+  secret: 'thisismykey',
+  resave: false,
+  saveUninitialized: false,
+}));
+
 const dbURI = 'mongodb://localhost/ArticlesDB';
 mongoose.connect(dbURI)
   .then((result) => {

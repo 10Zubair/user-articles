@@ -1,4 +1,6 @@
 const userModel = require('../models/user');
+const bcrypt = require('bcrypt');
+var session = require('express-session');
 
 const homePage = (req, res) => {
   res.redirect('/users');
@@ -14,11 +16,14 @@ const signup = async(req, res) => {
 
 const registerUser = async (req, res) => {
   try {
+    var salt = bcrypt.genSaltSync(10);
+    const hashPassword = bcrypt.hashSync(req.body.password, salt);
+    console.log(hashPassword)
     const newuser = new userModel({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       email: req.body.email,
-      password: req.body.password
+      password: hashPassword
     });
     await newuser.save();
     res.redirect('/users/signin');
@@ -36,11 +41,14 @@ const loggingUser = async (req, res) => {
   try {
     const findUser = await userModel.findOne({ email: req.body.email })
     if(findUser) {
-      if (findUser && findUser.password === req.body.password) {
-        res.render('userdashboard');
+      var passwordChk = await bcrypt.compare(req.body.password, findUser.password)
+      if(passwordChk) {
+       const session = req.session;
+        session.email = findUser.email;
+        res.redirect('/users/userdashboard');
       }
       else {
-        res.send('Invalid email or password')
+        res.send('Incorrect password')
       }
     }
     else {
@@ -51,6 +59,25 @@ const loggingUser = async (req, res) => {
   }
 }
 
+const userdashboard = (req, res) => {
+  if (req.session.email) {
+    res.render('userdashboard');
+  }
+  else {
+    res.redirect('/users/signin');
+  }
+}
+
+const logout = (req, res) => {
+  req.session.destroy((error) => {
+    if(error) {
+      console.log(error);
+    }
+    else {
+      res.redirect('/users')
+    }
+  })
+}
 
 module.exports = {
   homePage,
@@ -58,5 +85,7 @@ module.exports = {
   signup,
   registerUser,
   signin,
-  loggingUser
+  loggingUser,
+  userdashboard,
+  logout
 }
