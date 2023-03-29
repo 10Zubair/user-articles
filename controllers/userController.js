@@ -7,11 +7,11 @@ const homePage = (req, res) => {
 }
 
 const home = (req, res) => {
-  res.render('home')
+  res.render('user/home')
 }
 
 const signup = async(req, res) => {
-  res.render('signup');
+  res.render('user/signup');
 }
 
 const registerUser = async (req, res) => {
@@ -29,12 +29,12 @@ const registerUser = async (req, res) => {
     res.redirect('/users/signin');
   } catch (error) {
     console.log(error);
-    res.render('signup', { error: "Failed to register"})
+    res.render('user/signup', { error: "Failed to register"})
   }
 }
 
 const signin = async(req, res) => {
-  res.render('signin');
+  res.render('user/signin');
 }
 
 const loggingUser = async (req, res) => {
@@ -43,8 +43,9 @@ const loggingUser = async (req, res) => {
     if(findUser) {
       var passwordChk = await bcrypt.compare(req.body.password, findUser.password)
       if(passwordChk) {
-       const session = req.session;
+        session = req.session;
         session.email = findUser.email;
+        session.userId = findUser._id
         res.redirect('/users/userdashboard');
       }
       else {
@@ -61,7 +62,7 @@ const loggingUser = async (req, res) => {
 
 const userdashboard = (req, res) => {
   if (req.session.email) {
-    res.render('userdashboard');
+    res.render('user/userdashboard');
   }
   else {
     res.redirect('/users/signin');

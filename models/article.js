@@ -8,7 +8,6 @@ const articleSchema = new Schema({
   },
   description: {
     type: String,
-    required: true
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,

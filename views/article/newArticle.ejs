@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>create Article
+  </title>
+</head>
+<body>
+  <h2>New Article</h2>
+  <form action="/users/articles/create" method="post">
+    <label for="">Name : </label>
+    <input type="text" name="articlename" required autocomplete="off">
+    <label for="">Description : </label>
+    <input type="text" name="description" autocomplete="off">
+    <label for="">Author : </label>
+    <input type="text" name="author" required autocomplete="off">
+    <input type="submit">
+  </form>
+</body>
+</html>

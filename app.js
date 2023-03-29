@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
+const articleRoutes = require('./routes/articleRoutes');
 const session = require('express-session');
 
 const app = express();
@@ -8,6 +9,10 @@ app.use(session({
   secret: 'thisismykey',
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    secure: false,
+    maxAge: 3000000,
+  }
 }));
 
 const dbURI = 'mongodb://localhost/ArticlesDB';
@@ -25,6 +30,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.use(userRoutes);
+app.use(articleRoutes);
 
 app.use((req, res) => {
   res.send("Page not found!");
