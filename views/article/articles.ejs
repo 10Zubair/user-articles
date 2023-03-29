@@ -15,7 +15,7 @@
       <h3><%= article.articlename %></h3>
       <p><% article.description %></p>
       <p>Author name : <%= article.author.firstname %></p>
-      <a href="/users/articles/<%= article._id %>">Show</a> | <a href="/users/articles/<%= article._id %>/edit">Edit</a> | <a href="/users/articles/delete/<%= article._id %>"><button type="button">Delete</button></a>
+      <a href="/users/articles/<%= article._id %>">Show</a> | <a href="/users/articles/<%= article._id %>/edit">Edit</a> | <a href="/users/articles/delete/<%= article._id %>">Delete</a>
       <br>
     <% })%>
   <% } else { %>

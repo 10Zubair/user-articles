@@ -1,14 +1,14 @@
 const express = require('express');
 const articleRoutes = express.Router();
-var session = require('express-session');
+const sessionCheckingMiddleware = require('../middleware/sessionManager');
 const articleContoller = require('../controllers/articleController');
 
-articleRoutes.get('/users/articles', articleContoller.index);
-articleRoutes.get('/users/articles/new', articleContoller.newArticle);
-articleRoutes.post('/users/articles/create', articleContoller.createArticle);
-articleRoutes.get('/users/articles/:id', articleContoller.show);
-articleRoutes.get('/users/articles/:id/edit', articleContoller.edit);
-articleRoutes.post('/users/articles/:id', articleContoller.update);
-articleRoutes.get('/users/articles/delete/:id', articleContoller.deleteArticle);
+articleRoutes.get('/users/articles', sessionCheckingMiddleware, articleContoller.index);
+articleRoutes.get('/users/articles/new', sessionCheckingMiddleware, articleContoller.newArticle);
+articleRoutes.post('/users/articles/create', sessionCheckingMiddleware, articleContoller.createArticle);
+articleRoutes.get('/users/articles/:id', sessionCheckingMiddleware, articleContoller.show);
+articleRoutes.get('/users/articles/:id/edit', sessionCheckingMiddleware, articleContoller.edit);
+articleRoutes.post('/users/articles/:id', sessionCheckingMiddleware, articleContoller.update);
+articleRoutes.get('/users/articles/delete/:id', sessionCheckingMiddleware, articleContoller.deleteArticle);
 
 module.exports = articleRoutes;
