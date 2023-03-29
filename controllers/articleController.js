@@ -18,8 +18,9 @@ const createArticle = async(req, res) => {
     const articleObj = new articleModel({
       articlename: req.body.articlename,
       description: req.body.description,
-      author: req.body.author,
+      author: req.session.userId,
     })
+    console.log(articleObj);
     await articleObj.save();
     res.redirect('/users/articles');
   } catch (error) {
