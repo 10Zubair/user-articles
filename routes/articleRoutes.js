@@ -1,7 +1,10 @@
 const express = require('express');
 const articleRoutes = express.Router();
+const methodOverride = require('method-override');
 const sessionCheckingMiddleware = require('../middleware/sessionManager');
 const articleContoller = require('../controllers/articleController');
+
+articleRoutes.use(methodOverride('_method'));
 
 articleRoutes.get('/users/articles', sessionCheckingMiddleware, articleContoller.index);
 articleRoutes.get('/users/articles/new', sessionCheckingMiddleware, articleContoller.newArticle);

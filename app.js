@@ -11,7 +11,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     secure: false,
-    maxAge: 3000000,
+    maxAge: 120000,
   }
 }));
 
@@ -23,14 +23,15 @@ mongoose.connect(dbURI)
   })
   .catch((err) => {
     console.log(err);
-  })
+  });
 
 app.set('view engine', 'ejs');//automatically will look for the view directory
-app.use(express.json())
+app.use(express.json());
+//app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(userRoutes);
-app.use(articleRoutes);
+app.use(userRoutes, articleRoutes);
 
 app.use((req, res) => {
   res.send("Page not found!");

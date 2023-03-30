@@ -8,7 +8,8 @@
 </head>
 <body>
   <h1>Edit Article</h1>
-  <form action="/users/articles/<%= article._id %>" method="POST">
+  <form action="/users/articles/<%= article._id %>" method="post">
+    <input type="hidden" name="_method" value="put">
     <label for="articlename">Article Name:</label>
     <input type="text" name="articlename" value="<%= article.articlename %>">
     <br>

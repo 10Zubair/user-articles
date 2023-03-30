@@ -1,4 +1,5 @@
 const userModel = require('../models/user');
+const articleModel = require('../models/article');
 const bcrypt = require('bcrypt');
 var session = require('express-session');
 
@@ -60,13 +61,18 @@ const loggingUser = async (req, res) => {
   }
 }
 
-const userdashboard = (req, res) => {
-  if (req.session.email) {
-    res.render('user/userdashboard');
+const userdashboard = async(req, res) => {
+if (req.session.email) {
+  try {
+    const ar = await articleModel.find();
+    debugger;
+    res.render('user/userdashboard', { articles:ar });
+  } catch (error) {
+    console.log(error);
   }
-  else {
-    res.redirect('/users/signin');
-  }
+} else {
+  res.render('user/signin');
+}
 }
 
 const logout = (req, res) => {
